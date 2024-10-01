@@ -8,10 +8,10 @@ async function scheduleTimer({
     // 支持异步操作 推荐await写法
 
     // 这是一个示例函数，用于演示，正常用不到可以删掉
-    const someAsyncFunc = () => new Promise(resolve => {
-        setTimeout(() => resolve(), 1)
-    })
-    await someAsyncFunc()
+    // const someAsyncFunc = () => new Promise(resolve => {
+    //     setTimeout(() => resolve(), 1)
+    // })
+    // await someAsyncFunc()
 
     // 这个函数中也支持使用 AIScheduleTools 譬如给出多条时间配置让用户选择之类的
     // 选择模块，用户让用户多选一，暂不支持多选，返回值为选项列表中某一项
