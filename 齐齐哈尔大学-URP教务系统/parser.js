@@ -1,9 +1,8 @@
-<<<<<<< HEAD
 /*
  * @Author: No-World 2259881867@qq.com
  * @Date: 2024-07-14 17:07:48
  * @LastEditors: No-World 2259881867@qq.com
- * @LastEditTime: 2025-02-20 02:16:10
+ * @LastEditTime: 2025-02-20 02:45:30
  * @FilePath: \齐齐哈尔大学-URP教务系统\parser.js
  * @Description: 课程解析
  */
@@ -63,7 +62,13 @@ function scheduleHtmlParser(htmlContent) {
     }
 }
 
-// 统一处理时间地点行
+/**
+ * @description: 处理时间地点行
+ * @param {string} timeStr
+ * @param {string} locationStr
+ * @param {*} baseInfo
+ * @param {JSON} courseList
+ */
 function processRow(timeStr, locationStr, baseInfo, courseList) {
     if (!timeStr || !locationStr) return;
 
@@ -85,7 +90,11 @@ function processRow(timeStr, locationStr, baseInfo, courseList) {
     }
 }
 
-// 增强版周次解析（支持单双周）
+/**
+ * @description: 周次解析
+ * @param {string} weeksString
+ * @return {int[]} 周次数组
+ */
 function parseWeeks(weeksString) {
     const result = { weeks: new Set(), type: 0 };
     const cleanStr = weeksString.replace(/周/g, '');
@@ -114,7 +123,11 @@ function parseWeeks(weeksString) {
     return result;
 }
 
-// 增强版节次解析（支持多种格式）
+/**
+ * @description: 节次解析
+ * @param {string} nodeText
+ * @return {int[]} 节次数组
+ */
 function parseSections(nodeText) {
     const match = nodeText.match(/(\d+)(?:-(\d+))?/);
     if (!match) return [];
@@ -124,7 +137,11 @@ function parseSections(nodeText) {
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 }
 
-// 强化中文星期转换
+/**
+ * @description: 星期解析
+ * @param {string} dayText
+ * @return {int} 星期几，默认1
+ */
 function chineseToNumber(dayText) {
     const weekMap = {
         '一': 1, '二': 2, '三': 3, '四': 4,
@@ -133,74 +150,3 @@ function chineseToNumber(dayText) {
     };
     return weekMap[dayText.replace(/星期|周/g, '')] || 1;
 }
-=======
-function scheduleHtmlParser(htmlContent) {
-    const courseData = [];
-    const cellRegex = /<td.*?id="(\d+)_(\d+)".*?>([\s\S]*?)<\/td>/g;
-    const divRegex = /<div.*?>([\s\S]*?)<\/div>/g;
-    const pRegex = /<p.*?>([\s\S]*?)<\/p>/g;
-
-    let cellMatch;
-    while ((cellMatch = cellRegex.exec(htmlContent)) !== null) {
-        const day = parseInt(cellMatch[1], 10);
-        const sections = parseInt(cellMatch[2], 10);
-        const cellContent = cellMatch[3];
-
-        let divMatch;
-        while ((divMatch = divRegex.exec(cellContent)) !== null) {
-            const divContent = divMatch[1];
-            const pMatches = [...divContent.matchAll(pRegex)];
-
-            if (pMatches.length >= 5) {
-                const name = pMatches[0][1].trim();
-                const teacher = pMatches[2][1].trim().split('*')[0];
-                const weeksString = pMatches[3][1].trim();
-                const sectionList = pMatches[4][1].trim().match(/\d+/g).map(Number);
-                const position = pMatches[5][1].trim();
-
-                const weeks = parseWeeks(weeksString);
-
-                courseData.push({
-                    name: name,
-                    position: position,
-                    teacher: teacher,
-                    weeks: weeks,
-                    day: day,
-                    sections: sectionList
-                });
-            }
-        }
-    }
-
-    return courseData;
-}
-
-
-
-function parseWeeks(weeksString) {
-    const weeks = [];
-    const ranges = weeksString.match(/\d+-\d+|\d+/g);
-
-    ranges.forEach(range => {
-        if (range.includes('-')) {
-            const [start, end] = range.split('-').map(Number);
-            for (let i = start; i <= end; i++) {
-                weeks.push(i);
-            }
-        } else {
-            weeks.push(Number(range));
-        }
-    });
-
-    return weeks;
-}
-
-// 比较两个数组是否相等
-function arraysEqual(arr1, arr2) {
-    if (arr1.length !== arr2.length) return false;
-    for (let i = 0; i < arr1.length; i++) {
-        if (arr1[i] !== arr2[i]) return false;
-    }
-    return true;
-}
->>>>>>> ed0d73a2f8e7cbacbc5fa5537e5a0acc21906529
