@@ -2,7 +2,7 @@
  * @Author: No-World 2259881867@qq.com
  * @Date: 2024-07-14 17:07:48
  * @LastEditors: No-World 2259881867@qq.com
- * @LastEditTime: 2025-02-20 02:35:29
+ * @LastEditTime: 2025-02-22 21:46:30
  * @FilePath: \齐齐哈尔大学-URP教务系统\provider.js
  * @Description: 检查函数
  */
